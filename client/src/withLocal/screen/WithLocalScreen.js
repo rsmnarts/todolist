@@ -11,6 +11,10 @@ import {
   Text, Button, Input
 } from 'native-base'
 
+import PublicHeader from '../../publics/components/PublicHeader'
+import PublicFooter from '../../publics/components/PublicFooter'
+import styles from '../../publics/assets/Styles'
+
 export default class WithLocalScreen extends Component {
 
   constructor() {
@@ -52,38 +56,43 @@ export default class WithLocalScreen extends Component {
   render() {
     
     return(
-     <Container>
-       <Content style={{ padding: 5 }}>
-        <Row>
-          <Col style={{ flex: 8 }}>
-            <Input
-              placeholder  = 'Enter the text in here'
-              style        = {{ borderBottomWidth: 0.4 }}
-              value        = { this.state.input }
-              onChangeText = { this._changeTextInput }
-            />
-          </Col>
-          <Col style={{ flex: 2 }}>
-            <Button 
-              info
-              onPress={this._handleButton}
-            >
-              <Text> Save </Text>
-            </Button>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <FlatList
-              style        = {{ flex:1 }}
-              data         = {this.state.text}
-              keyExtractor = {this._keyExtractor}
-              renderItem   = {this._renderItem}
-            />
-          </Col>
-        </Row>
-       </Content>
-     </Container>
+      <Container>
+        <PublicHeader 
+          title='Use Express'
+          menu={() => this.props.navigation.openDrawer()}
+        />
+        <Content style={styles.Content}>
+          <Row>
+            <Col style={{ flex: 8 }}>
+              <Input
+                placeholder  = 'Enter the text in here'
+                style        = {{ borderBottomWidth: 0.4 }}
+                value        = { this.state.input }
+                onChangeText = { this._changeTextInput }
+              />
+            </Col>
+            <Col style={{ flex: 2 }}>
+              <Button 
+                info
+                onPress={this._handleButton}
+              >
+                <Text> Save </Text>
+              </Button>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <FlatList
+                style        = {{ flex:1 }}
+                data         = {this.state.text}
+                keyExtractor = {this._keyExtractor}
+                renderItem   = {this._renderItem}
+              />
+            </Col>
+          </Row>
+        </Content>
+				<PublicFooter />
+      </Container>
     )
   }
 }

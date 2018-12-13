@@ -12,6 +12,10 @@ import {
 } from 'native-base';
 import axios from 'axios';
 
+import PublicHeader from '../../publics/components/PublicHeader'
+import PublicFooter from '../../publics/components/PublicFooter'
+import styles from '../../publics/assets/Styles'
+
 export default class WithAxiosScreen extends Component {
 
   constructor() {
@@ -20,7 +24,7 @@ export default class WithAxiosScreen extends Component {
     this.state = {
       text: [],
       input: '',
-      baseUrl: 'http://192.168.0.23:7981/api/todolist/',
+      baseUrl: 'https://todolist-with-rn.herokuapp.com/api/todolist/',
       btnSubmit: 'Save',
       id: ''
     }
@@ -117,7 +121,11 @@ export default class WithAxiosScreen extends Component {
     
     return(
      <Container>
-       <Content style={{ padding: 5 }}>
+      <PublicHeader 
+        title='Use Express'
+        menu={() => this.props.navigation.openDrawer()}
+      />
+      <Content style={styles.Content}>
         <Row style={{ justifyContent: 'center' }}>
           <Col style={{ flex: 8 }}>
             <Input
@@ -147,7 +155,8 @@ export default class WithAxiosScreen extends Component {
             />
           </Col>
         </Row>
-       </Content>
+      </Content>
+      <PublicFooter />
      </Container>
     )
   }
