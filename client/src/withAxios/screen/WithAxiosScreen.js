@@ -90,7 +90,7 @@ export default class WithAxiosScreen extends Component {
     return(
       <Container>
         <PublicHeader 
-          title='Use Express'
+          title='Use Axios'
           menu={() => this.props.navigation.openDrawer()}
         />
         <Content style={styles.Content}>

@@ -58,7 +58,7 @@ export default class WithLocalScreen extends Component {
     return(
       <Container>
         <PublicHeader 
-          title='Use Express'
+          title='Use Local (Full state)'
           menu={() => this.props.navigation.openDrawer()}
         />
         <Content style={styles.Content}>
