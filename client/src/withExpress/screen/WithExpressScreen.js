@@ -25,7 +25,7 @@ export default class WithAxiosScreen extends Component {
       text: [],
       input: '',
       baseUrl: 'https://todolist-with-rn.herokuapp.com/api/todolist/',
-      btnSubmit: 'Save',
+      btnSubmit: 'Submit',
       id: ''
     }
   }
@@ -50,7 +50,7 @@ export default class WithAxiosScreen extends Component {
     
     if (this.state.input == '') {
       this.setState({
-        btnSubmit: 'Save'
+        btnSubmit: 'Submit'
       })
     }
   }
@@ -67,9 +67,9 @@ export default class WithAxiosScreen extends Component {
       })
   }
   
-  _saveItem = () => {
+  _SubmitItem = () => {
     const btnSubmit = this.state.btnSubmit
-    if (this.state.btnSubmit == 'Save') {
+    if (this.state.btnSubmit == 'Submit') {
       axios.post(this.state.baseUrl,{
         title: this.state.input
       })
@@ -88,7 +88,7 @@ export default class WithAxiosScreen extends Component {
       })
         .then( res => {
           this.setState({
-            btnSubmit: 'Save',
+            btnSubmit: 'Submit',
             input: ''
           })
           this._getItem()
@@ -138,7 +138,7 @@ export default class WithAxiosScreen extends Component {
           <Col style={{ flex: 3, justifyContent: 'center'  }}>
             <Button 
               info
-              onPress={this._saveItem}
+              onPress={this._SubmitItem}
             >
               <Text> {this.state.btnSubmit} </Text>
             </Button>
