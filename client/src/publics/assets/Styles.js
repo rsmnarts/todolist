@@ -9,7 +9,8 @@ const styles = StyleSheet.create({
 	},
 	Content: {
 		backgroundColor: '#FDFFFC',
-		padding: 5
+		padding: 5,
+		margin: 10
 	}
 })
 

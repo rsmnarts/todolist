@@ -5,7 +5,7 @@
  */
 
 import React, { Component } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, RefreshControl } from 'react-native';
 import {
   Container, Content, ListItem, Row, Col,
   Text, Button, Input
@@ -22,11 +22,12 @@ export default class WithAxiosScreen extends Component {
     super()
 
     this.state = {
-      text: [],
-      input: '',
-      baseUrl: 'https://todolist-with-rn.herokuapp.com/api/todolist/',
-      btnSubmit: 'Submit',
-      id: ''
+      text      : [],
+      input     : '',
+      baseUrl   : 'https://todolist-with-rn.herokuapp.com/api/todolist/',
+      btnSubmit : 'Submit',
+      id        : '',
+      isFetching: false
     }
   }
   
@@ -36,8 +37,8 @@ export default class WithAxiosScreen extends Component {
   
   _renderItem = ({item, index}) => (
     <ListItem
-      onLongPress={() => this._deleteItem(item)}
-      onPress={() => this._updateItem(item)}
+      onLongPress = {() => this._deleteItem(item)}
+      onPress     = {() => this._updateItem(item)}
     >
       <Text>{item.title}</Text>
     </ListItem>
@@ -55,11 +56,23 @@ export default class WithAxiosScreen extends Component {
     }
   }
 
+  _onRefreshBtn = () => {
+    this.setState({
+      isFetching: true,
+      input     : '',
+      btnSubmit : 'Submit'
+    },
+    () => {
+      this._getItem()
+    })
+  }
+
   _getItem = () => {
     axios.get(this.state.baseUrl)
       .then(res => {
         this.setState({
-          text: res.data
+          text      : res.data,
+          isFetching: false
         })
       })
       .catch(err => {
@@ -67,9 +80,10 @@ export default class WithAxiosScreen extends Component {
       })
   }
   
-  _SubmitItem = () => {
-    const btnSubmit = this.state.btnSubmit
-    if (this.state.btnSubmit == 'Submit') {
+  _submitBtn = () => {
+    const btnSubmit = this.state.btnSubmi
+    
+    if ( this.state.btnSubmit == 'Submit' ) {
       axios.post(this.state.baseUrl,{
         title: this.state.input
       })
@@ -89,7 +103,7 @@ export default class WithAxiosScreen extends Component {
         .then( res => {
           this.setState({
             btnSubmit: 'Submit',
-            input: ''
+            input    : ''
           })
           this._getItem()
         })
@@ -111,8 +125,8 @@ export default class WithAxiosScreen extends Component {
 
   _updateItem = (item) => {
     this.setState({
-      input: item.title,
-      id: item._id,
+      input    : item.title,
+      id       : item._id,
       btnSubmit: 'Update'
     })
   }
@@ -122,10 +136,18 @@ export default class WithAxiosScreen extends Component {
     return(
      <Container>
       <PublicHeader 
-        title='Use Express'
-        menu={() => this.props.navigation.openDrawer()}
+        title = 'Use Express'
+        menu  = {() => this.props.navigation.openDrawer()}
       />
-      <Content style={styles.Content}>
+      <Content 
+        style={styles.Content}
+        refreshControl = {
+          <RefreshControl 
+            onRefresh  = {this._onRefreshBtn}
+            refreshing = {this.state.isFetching}
+          />
+        }
+      >
         <Row style={{ justifyContent: 'center' }}>
           <Col style={{ flex: 8 }}>
             <Input
@@ -138,7 +160,7 @@ export default class WithAxiosScreen extends Component {
           <Col style={{ flex: 3, justifyContent: 'center'  }}>
             <Button 
               info
-              onPress={this._SubmitItem}
+              onPress = {this._submitBtn}
             >
               <Text> {this.state.btnSubmit} </Text>
             </Button>
@@ -151,6 +173,8 @@ export default class WithAxiosScreen extends Component {
               data         = {this.state.text}
               keyExtractor = {this._keyExtractor}
               renderItem   = {this._renderItem}
+              onRefresh    = {() => this._onRefreshBtn}
+              refreshing   = {this.state.isFetching}
               inverted
             />
           </Col>
